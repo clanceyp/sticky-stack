@@ -44,7 +44,7 @@
       background-color: cornflowerblue;
   }
   .sticky-item-lookandfeel-1 {
-      background-color: green;
+      background-color: lightgreen;
       min-height: 180px;
   }
   .sticky-item-lookandfeel-2 {
@@ -80,9 +80,8 @@
   }
 
   .sticky-button {
-      background-color:blue;
-      border-bottom: 10px solid #fff;
-      border-top: 10px solid #fff;
+      background-color:lightgreen;
+      border: 10px solid #fff;
       padding: 10px;
   }
   .sticky-button button {
@@ -151,9 +150,9 @@
             <div class="side-bar-item demo-block-outline demo-block-min-height js-sticky-stack-item-container">
                 <div class="js-sticky-stack-item sticky-item-lookandfeel sticky-item-lookandfeel-2">
                     <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, I'm sticky boom!</p>
-                    <p>Hi, I'm sticky boom!</p>
-                    <p>Hi, I'm sticky boom!</p>
+                    <p>Hi, I'm sticky!</p>
+                    <p>Hi, I'm sticky!</p>
+                    <p>Hi, I'm sticky!</p>
                 </div>
             </div>
             <div class="side-bar-item demo-block-outline demo-block-min-height">
@@ -163,11 +162,9 @@
                 </div>
             </div>
             <div class="side-bar-item demo-block-outline demo-block-min-height js-sticky-stack-item-container">
-                <div class="js-sticky-stack-item sticky-item-lookandfeel sticky-item-lookandfeel-0">
+                <div class="3js-sticky-stack-item 3sticky-item-lookandfeel 3sticky-item-lookandfeel-0">
                     <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, I'm sticky boom!</p>
-                    <p>Hi, I'm sticky boom!</p>
-                    <p>Hi, I'm sticky boom!</p>
+                    <p>Hi, i'm not sticky i'm just normal : )</p>
                 </div>
             </div>
             <div class="side-bar-item demo-block-outline demo-block-min-height ">
@@ -179,9 +176,9 @@
             <div class="side-bar-item demo-block-outline demo-block-min-height js-sticky-stack-item-container">
                 <div class="js-sticky-stack-item sticky-item-lookandfeel sticky-item-lookandfeel-1">
                     <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, I'm sticky boom!</p>
-                    <p>Hi, I'm sticky boom!</p>
-                    <p>Hi, I'm sticky boom!</p>
+                    <p>Hi, I'm sticky!</p>
+                    <p>Hi, I'm sticky!</p>
+                    <p>Hi, I'm sticky!</p>
                 </div>
             </div>
         </aside>
@@ -278,6 +275,7 @@ $(document).ready(function(){
         $(el).html(i+1);
     });
     $(".main-content")
+        .append( content )
         .append( content )
         .append( content );
 
