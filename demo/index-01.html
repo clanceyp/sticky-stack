@@ -74,7 +74,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <h1 class="text-center demo-block-outline">I'm the header </h1>
+        <h1 class="text-center demo-block-outline">I'm the header (v.<span></span>)</h1>
     </div>
 
     <div class="row">
@@ -162,6 +162,8 @@
 
 
 $(document).ready(function(){
+    var version = location.pathname.split("index-")[1].split(".")[0];
+    $("h2 span").html( version )
     $("aside span.no").each(function(i, el){
         $(el).html(i+1);
     });
