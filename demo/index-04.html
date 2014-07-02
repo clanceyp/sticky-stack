@@ -8,7 +8,7 @@
   <meta name="description" content="Sticky-stack demo">
   <meta name="author" content="clanceyp">
 
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../lib/vendor/bootstrap.min.css">
   <style>
 
 
@@ -35,7 +35,10 @@
 .affix-bottom {
     position: absolute
 }
-
+.sticky-stack-disabled .affix,
+.sticky-stack-disabled .affix-bottom {
+    position: static;
+}
   .sticky-item-lookandfeel {
       border-bottom: 10px solid #fff;
       padding: 5px;
@@ -212,7 +215,8 @@ $(document).ready(function(){
                 ii = (i+1),
                 $parent = getSetParent($el);
 
-            $el.data("sticky-stack-top", gap*ii + offset )
+            $el.attr("id", "sticky-"+ii)
+                .data("sticky-stack-top", gap*ii + offset )
                 .data("sticky-stack-offset-height", $el.outerHeight(true) + gap )
                 .css({
                     'width': $el.outerWidth( true ),
@@ -230,19 +234,21 @@ $(document).ready(function(){
                             return a;
                         }
                     }
-                })
-                .on("affix-top.bs.affix", function(){
-                    resetStickyStack($el);
                 });
             $parent.css({
                 'min-height': $el.outerHeight(true)
             });
             offset = offset+$el.outerHeight(true);
-            $el.on('affixed.bs.affix', function(){
-                if (!$(this).css('top') || $(this).css('top') === 'auto'){
-                    $(this).css('top', $(this).data("sticky-stack-top"));
+            $el.on(
+                'affix.bs.affix affix-top.bs.affix affix-bottom.bs.affix'
+                , function(e){
+                    if( $stack.hasClass('sticky-stack-disabled') ){
+                        e.preventDefault();
+                    } else if (e.type === 'affix-top'){
+                        resetStickyStackElement(e.target);
+                    }
                 }
-            });
+            );
         });
     });
 
@@ -262,13 +268,13 @@ $(document).ready(function(){
                 $$elements = $stack.find( stackItemSelector );
 
             $$elements.each(function(i, el){
-                resetStickyStack(el);
+                resetStickyStackElement(el);
             })
         })
     }
-    function resetStickyStack(el){
+    function resetStickyStackElement(el){
         var $el = $(el);
-            console.log('i was reset, ', $el.css("top"))
+            console.log($el.attr("id"), ' was reset, ', $el.css("top"))
         $el.animate({
             'top': $el.data("sticky-stack-top")
         },500);
