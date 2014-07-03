@@ -1,0 +1,341 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sticky-stack demo</title>
+  <meta name="description" content="Sticky-stack demo">
+  <meta name="author" content="clanceyp">
+
+  <link rel="stylesheet" href="../lib/vendor/bootstrap.min.css">
+  <style>
+
+
+  .demo-block-place-holder {
+      background-color: #cecece;
+      border: 1px solid #ccc;
+  }
+  .demo-block-outline {
+      border: 1px dashed #ccc;
+  }
+  .demo-block-min-height {
+      min-height: 140px;
+  }
+  .side-bar .side-bar-item {
+      margin-bottom: 10px;
+  }
+
+    .affix {
+        position: fixed;
+    }
+    .affix-top {
+        position: static;
+    }
+    .affix-bottom {
+        position: absolute
+    }
+    .sticky-stack-disabled .affix,
+    .sticky-stack-disabled .affix-bottom,
+    .sticky-stack-disabled .affix-top {
+        position: static;
+    }
+
+
+  .sticky-item-lookandfeel {
+      border-bottom: 10px solid #fff;
+      padding: 5px;
+  }
+  .sticky-item-lookandfeel-0 {
+      background-color: cornflowerblue;
+  }
+  .sticky-item-lookandfeel-1 {
+      background-color: lightgreen;
+      min-height: 180px;
+  }
+  .sticky-item-lookandfeel-2 {
+      background-color: pink;
+      min-height: 120px;
+  }
+  .sticky-item-lookandfeel-3 {
+      background-color: cornflowerblue;
+  }
+  h1, h2, h3 {
+      margin-top: 0;
+      padding-top: 0;
+  }
+  h1 {
+      background-color: #cecece;
+      line-height: 4em;
+      margin-top: 8px;
+  }
+  .foot-display {
+      padding-top: 140px;
+  }
+  .foot-display span {
+    display: inline-block;
+    letter-spacing: 10px;
+    margin: 0 30px 0 50px;
+    position: relative;
+    -webkit-transform: scale(2,20);
+    -webkit-transform-origin-y: 50%;
+  }
+  .version {
+      font-size: 50%;
+      opacity: 0.5;
+  }
+
+  .sticky-button {
+      background-color:lightgreen;
+      border: 10px solid #fff;
+      border-top: 0 none;
+      padding: 10px;
+  }
+  .sticky-button button {
+      width: 100%;
+  }
+  aside {
+      width: 330px;
+  }
+  aside h3, aside p {
+      padding-left: 10px;
+  }
+
+  </style>
+</head>
+
+<body class="homePageRenderer">
+<div class="page-home container">
+    <div class="row">
+        <h1 class="text-center demo-block-outline">I'm the header <span class="version"></span> </h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2"><ul>
+            <li>Navigation</li>
+            <li>Navigation</li>
+            <li>Navigation</li>
+            <li>Navigation</li>
+            <li>Navigation</li>
+        </ul></div>
+        <div class="col-md-6 demo-block-outline main-content">
+            <h2>Main content</h2>
+
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam velit augue, bibendum in fringilla quis, blandit nec odio. Proin rhoncus mollis diam, vel blandit libero blandit non. Maecenas auctor odio porttitor, egestas neque et, consectetur ipsum. Aliquam vel mattis tortor, sit amet euismod justo. Nulla ultrices dui justo, ut feugiat velit bibendum vitae. Integer quis nunc purus. Sed bibendum elit magna, ut ornare eros lacinia eu. Fusce vitae lectus at diam molestie scelerisque ut non orci. Donec diam magna, dictum nec lobortis quis, faucibus ut felis. Donec vestibulum nunc ut quam dapibus, imperdiet placerat justo tristique. Cras mollis, lectus ut ultrices feugiat, velit augue ultricies nunc, in interdum nisl tellus id est. Duis mattis at neque eu mollis. Quisque lacinia posuere massa, ac lacinia libero aliquet vel.
+            </p>
+            <p>
+                Curabitur id massa venenatis leo vehicula ultrices at eu purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam gravida purus id lobortis vulputate. Nulla convallis vel turpis sit amet ultricies. Aenean ut commodo nisi, vitae malesuada nisi. Integer eget suscipit libero. Mauris sit amet dolor nibh.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris elementum blandit urna sed scelerisque. Vivamus vitae odio sit amet ipsum ultricies accumsan. Aenean tempus eget enim at egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Pellentesque pellentesque orci eget tellus ullamcorper commodo. Duis felis enim, lobortis et vehicula quis, tristique vel justo. Morbi a malesuada arcu. Suspendisse ac urna sit amet lectus imperdiet euismod vel vehicula lacus. Cras sed odio vitae quam posuere varius. Nam sed ipsum in lacus hendrerit pulvinar. Duis semper et lorem egestas pellentesque. Vivamus blandit non tellus quis feugiat.
+            </p>
+
+        </div>
+        <aside class="hidden-xs hidden-sm col-md-4 col-lg-3 js-sticky-stack side-bar">
+            <div id="sticky-stack-template-standard" class="side-bar-item demo-block-outline demo-block-min-height js-sticky-stack-item-container">
+                <div class="js-sticky-stack-item sticky-item-lookandfeel sticky-item-lookandfeel-2">
+                    <h3>Aside item <span class="no"></span></h3>
+                    <p>Hi, I'm standard sticky! I get pushed up by my bros</p>
+                    <p>Hi, I'm standard sticky! I get pushed up by my bros</p>
+                </div>
+            </div>
+            <div id="sticky-stack-template-static" class="side-bar-item demo-block-outline demo-block-min-height">
+                <div class="">
+                    <h3>Aside item <span class="no"></span></h3>
+                    <p>Hi, I'm not sticky, I'm static : )</p>
+                    <p>Hi, I'm not sticky, I'm static : )</p>
+                </div>
+            </div>
+            <div id="sticky-stack-template-persistant" class="side-bar-item demo-block-outline demo-block-min-height ">
+                <div class="">
+                    <h3>Aside item <span class="no"></span></h3>
+                    <p>Hi, I contain a persistently sticky item, it stays in view</p>
+                    <div class="sticky-button js-sticky-stack-item js-sticky-stack-item-fixed">
+                      <button>
+                          Persistent item
+                      </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div class="row footer">
+      <div class="col-md-12 demo-block-place-holder text-center foot-display" style="min-height:1300px;">I'm a <span>tall</span> footer</div>
+    </div>
+</div>
+
+<script src="http://localgithub/sticky-stack/lib/vendor/jquery-1.11.1.min.js"></script>
+<script src="http://localgithub/sticky-stack/lib/vendor/bootstrap.3.2.0.min.js"></script>
+<script>
+
+// var stackSelector = ".js-sticky-stack",
+//     stackItemSelector = ".js-sticky-stack-item";
+//
+//
+
+$(document).ready(function(){
+
+    var version = location.pathname.split("index-")[1].split(".")[0],
+        content = $(".main-content").html();
+
+    // set version number on demo
+    $(".version").html( "(v."+ version +")" )
+    // add lots of content to page body
+    $(".main-content")
+        .append( content )
+        .append( content )
+        .append( content )
+        .append( content );
+    // set up right hand column
+
+    $("aside.js-sticky-stack")
+        .append( $("#sticky-stack-template-static").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-standard").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-static").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-persistant").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-standard").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-standard").clone().attr("id",'') )
+
+    // add visible number to side bar items
+    $("aside.js-sticky-stack span.no").each(function(i, el){
+        $(el).html(i+1);
+    });
+
+    // options and utils
+    window.stickyStack = {
+        options: {
+            lastChildScrollDelay: 5e3,
+            baseZIndex: 100,
+            stackSelector : ".js-sticky-stack",
+            stackItemSelector : ".js-sticky-stack-item"
+        },
+        classNames: {
+            persistant: "js-sticky-stack-item-fixed",
+            container: "js-sticky-stack-item-container",
+            disabled: "sticky-stack-disabled"
+        },
+        getNextOffsetBottom: function(ii, $el, $$elements, docHeight) {
+            // return the offset top of the NEXT element in the array
+            if (ii < $$elements.length && !$el.data("sticky-stack-persistant")){
+                return docHeight - ( $( $$elements.get(ii) ).offset().top - 20 );
+            } else {
+                return $('.footer').outerHeight(true) + 40;
+            }
+        },
+        getSetParent: function($el){
+            // get the sticky parent and create in not already in dom
+            var $parent = $el.parent( "."+ stickyStack.classNames.container );
+            if ($parent.length < 1){
+                $parent = $el.wrap("<div class='"+ stickyStack.classNames.container  +"'></div>").parent();
+            }
+            $el.data("sticky-stack-offset-parent", $parent );
+            return $parent;
+        },
+        init: function(){
+            var $$stacks = $(stickyStack.options.stackSelector).not("."+stickyStack.classNames.disabled),
+                offset = 0,
+                gap = 0,
+                docHeight = $(document).height();
+            this.$$stacks = $$stacks;
+            $$stacks.each(function(i, stack){
+                var $stack = $( stack ),
+                    $$elements = $stack.find( stickyStack.options.stackItemSelector );
+
+                // save refs to the elements and last element for the scroll timer
+                $stack
+                    .data('sticky-stack-elements', $$elements)
+                    .data('sticky-stack-final-element', $( $$elements.last() ) )
+                    .data('sticky-stack-final-element').html("<h3>I'm the last item</h3><p style=min-height:120px>I'm the last item, I will scroll out of view after a delay of "+ stickyStack.options.lastChildScrollDelay/1000 +" secs</p>")
+                $$elements.each(function(i, el){
+                    // set boostrap affix and width on elements and height on parent elements to preserve their space
+                    var $el = $(el),
+                        ii = (i+1),
+                        $parent = stickyStack.getSetParent($el),
+                        persistant = $el.hasClass( stickyStack.classNames.persistant );
+
+
+                    $el.data("sticky-stack-top", gap*ii + offset )
+                        .data("sticky-stack-offset-height", $el.outerHeight(true) + gap )
+                        .data("sticky-stack-persistant",  persistant )
+                        .css({
+                            'width': $el.outerWidth( true ),
+                            'top': $el.data("sticky-stack-top"),
+                            'z-index': stickyStack.options.baseZIndex + ( persistant ? 1 : 0)
+                        })
+                        .affix({
+                            offset: {
+                                top: function() {
+                                    var a = (this.top = $el.offset().top - ($el.data("sticky-stack-top")));
+                                    return a;
+                                },
+                                bottom: function() {
+                                    var a = (this.bottom = stickyStack.getNextOffsetBottom(ii, $el, $$elements, docHeight )  );
+                                    return a;
+                                }
+                            }
+                        });
+
+                    $parent.css({
+                        'min-height': $el.outerHeight(true)
+                    });
+
+                    if ( persistant ){
+                        // add height of persistant element to offset in this stack
+                        offset = offset+$el.outerHeight(true);
+                    }
+                    $el.on('affixed.bs.affix', function(){
+                        // hack to pevent flicker
+                        if (!$(this).css('top') || $(this).css('top') === 'auto'){
+                            $(this).css('top', $(this).data("sticky-stack-top"));
+                        }
+                    });
+                });
+            });
+
+        },
+        initScroll: function(){
+            $(window).scroll(function() {
+                // scroll last child out of view after
+                clearTimeout($.data(this, 'stickyStacScrollTimer'));
+                $.data(this, 'stickyStacScrollTimer', setTimeout(function() {
+                    stickyStack.$$stacks.each(function(i, stack){
+                        var $stack = $( stack ),
+                            $finalElement = $stack.data('sticky-stack-final-element');
+
+                        if ($finalElement.hasClass('affix')){
+                            $finalElement.animate({
+                                top: "-="+ $finalElement.outerHeight( true )
+                            }, 500, function() {
+                                $finalElement
+                                    .removeClass('affix')
+                                    .addClass('affix-top')
+                                    .css('top', $finalElement.data("sticky-stack-top") );
+                            });
+                        }
+                    });
+                }, stickyStack.options.lastChildScrollDelay));
+            });
+        },
+        destroy: function(){
+            $(window).off('.affix')
+            stickyStack.$$stacks.each(function(i, stack){
+                var $stack = $( stack ),
+                    $$elements = $stack.data("sticky-stack-elements")
+                $$elements.removeData('affix').removeClass('affix affix-top affix-bottom')
+            });
+        }
+    }
+
+
+    // stickyStack.init();
+    // stickyStack.initScroll();
+
+
+});
+
+
+</script>
+</body>
+</html>
