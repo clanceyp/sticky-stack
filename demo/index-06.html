@@ -224,7 +224,7 @@ $(document).ready(function(){
         },
         getSetParent: function($el){
             // get the sticky parent and create in not already in dom
-            var $parent = $el.parent( stickyStack.classNames.container );
+            var $parent = $el.parent( "."+ stickyStack.classNames.container  );
             if ($parent.length < 1){
                 $parent = $el.wrap("<div class='"+ stickyStack.classNames.container  +"'></div>").parent();
             }
