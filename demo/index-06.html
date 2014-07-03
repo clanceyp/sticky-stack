@@ -94,6 +94,9 @@
   .sticky-button button {
       width: 100%;
   }
+  aside h3, aside p {
+      padding-left: 10px;
+  }
   </style>
 </head>
 
@@ -126,74 +129,29 @@
 
         </div>
         <aside class="col-md-4 js-sticky-stack side-bar">
-            <div class="side-bar-item demo-block-outline demo-block-min-height js-sticky-stack-item-container">
+            <div id="sticky-stack-template-standard" class="side-bar-item demo-block-outline demo-block-min-height js-sticky-stack-item-container">
                 <div class="js-sticky-stack-item sticky-item-lookandfeel sticky-item-lookandfeel-2">
                     <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, I'm sticky!</p>
-                    <p>Hi, I'm sticky!</p>
-                    <p>Hi, I'm sticky!</p>
+                    <p>Hi, I'm standard sticky! I get pushed up by my brothers</p>
+                    <p>Hi, I'm standard sticky! I get pushed up by my brothers</p>
                 </div>
             </div>
-            <div class="side-bar-item demo-block-outline demo-block-min-height ">
+            <div id="sticky-stack-template-static" class="side-bar-item demo-block-outline demo-block-min-height">
                 <div class="">
                     <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, i'm not sticky i'm just normal : )</p>
+                    <p>Hi, I'm not sticky, I'm static : )</p>
+                    <p>Hi, I'm not sticky, I'm static : )</p>
+                </div>
+            </div>
+            <div id="sticky-stack-template-persistant" class="side-bar-item demo-block-outline demo-block-min-height ">
+                <div class="">
+                    <h3>Asside item <span class="no"></span></h3>
+                    <p>Hi, I contain a persintantly sticky item, it stays in view</p>
                     <div class="sticky-button js-sticky-stack-item js-sticky-stack-item-fixed">
                       <button>
-                          Buy Me!
+                          Persistent item
                       </button>
                     </div>
-                </div>
-            </div>
-            <div class="side-bar-item demo-block-outline demo-block-min-height js-sticky-stack-item-container">
-                <div class="js-sticky-stack-item sticky-item-lookandfeel sticky-item-lookandfeel-2">
-                    <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, I'm sticky!</p>
-                    <p>Hi, I'm sticky!</p>
-                    <p>Hi, I'm sticky!</p>
-                </div>
-            </div>
-            <div class="side-bar-item demo-block-outline demo-block-min-height">
-                <div class="">
-                    <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, i'm not sticky i'm just normal : )</p>
-                </div>
-            </div>
-            <div class="side-bar-item demo-block-outline demo-block-min-height ">
-                <div class="">
-                    <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, i'm not sticky i'm just normal : )</p>
-                    <div class="sticky-button js-sticky-stack-item js-sticky-stack-item-fixed">
-                      <button>
-                          Buy Me!
-                      </button>
-                    </div>
-                </div>
-            </div>
-            <div class="side-bar-item demo-block-outline demo-block-min-height">
-                <div class="">
-                    <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, i'm not sticky i'm just normal : )</p>
-                </div>
-            </div>
-            <div class="side-bar-item demo-block-outline demo-block-min-height js-sticky-stack-item-container">
-                <div class="3js-sticky-stack-item 3sticky-item-lookandfeel 3sticky-item-lookandfeel-0">
-                    <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, i'm not sticky i'm just normal : )</p>
-                </div>
-            </div>
-            <div class="side-bar-item demo-block-outline demo-block-min-height ">
-                <div class="">
-                    <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, i'm not sticky i'm just normal : )</p>
-                </div>
-            </div>
-            <div class="side-bar-item demo-block-outline demo-block-min-height js-sticky-stack-item-container">
-                <div class="js-sticky-stack-item sticky-item-lookandfeel sticky-item-lookandfeel-1">
-                    <h3>Asside item <span class="no"></span></h3>
-                    <p>Hi, I'm sticky!</p>
-                    <p>Hi, I'm sticky!</p>
-                    <p>Hi, I'm sticky!</p>
                 </div>
             </div>
         </aside>
@@ -219,17 +177,27 @@ $(document).ready(function(){
         content = $(".main-content").html();
 
     // set version number on demo
-    $(".version").html( version )
-    // add visible number to side bar items
-    $("aside span.no").each(function(i, el){
-        $(el).html(i+1);
-    });
+    $(".version").html( "(v."+ version +")" )
     // add lots of content to page body
     $(".main-content")
         .append( content )
         .append( content )
         .append( content )
         .append( content );
+    // set up right hand column
+
+    $("aside.js-sticky-stack")
+        .append( $("#sticky-stack-template-static").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-standard").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-static").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-persistant").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-standard").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-standard").clone().attr("id",'') )
+
+    // add visible number to side bar items
+    $("aside.js-sticky-stack span.no").each(function(i, el){
+        $(el).html(i+1);
+    });
 
     // options and utils
     var stickyStack = {
@@ -251,7 +219,7 @@ $(document).ready(function(){
             } else if (ii < $$elements.length){
                 return docHeight - ( $( $$elements.get(ii) ).offset().top - 20 );
             } else {
-                return $('.footer').outerHeight(true);
+                return $('.footer').outerHeight(true) + 40;
             }
         },
         getSetParent: function($el){
@@ -277,7 +245,7 @@ $(document).ready(function(){
 
         // save a ref to the last element for the scroll timer
         $stack.data('sticky-stack-final-element', $( $$elements.last() ) );
-
+        $stack.data('sticky-stack-final-element').html("<h3>I'm the last item</h3><p style=min-height:120px>I'm the last item, I will scroll out of view after a delay of "+ stickyStack.options.lastChildScrollDelay/1000 +" secs</p>")
         $$elements.each(function(i, el){
             // set boostrap affix and width on elements and height on parent elements to preserve their space
             var $el = $(el),
