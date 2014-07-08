@@ -1,0 +1,199 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Sticky-stack demo</title>
+  <meta name="description" content="Sticky-stack demo">
+  <meta name="author" content="clanceyp">
+
+  <link rel="stylesheet" href="../lib/vendor/bootstrap.min.css">
+  <style>
+
+body {
+    line-height: 17.5px;
+}
+
+  .demo-block-place-holder {
+      background-color: #cecece;
+      border: 1px solid #ccc;
+  }
+  .demo-block-outline {
+      border: 1px dashed #ccc;
+  }
+  .demo-block-min-height {
+      min-height: 140px;
+  }
+  .side-bar .side-bar-item {
+      margin-bottom: 10px;
+  }
+
+  .sticky-item-lookandfeel {
+      padding: 5px;
+  }
+  .sticky-item-lookandfeel-0 {
+      background-color: cornflowerblue;
+  }
+  .sticky-item-lookandfeel-1 {
+      background-color: lightgreen;
+      min-height: 180px;
+  }
+  .sticky-item-lookandfeel-2 {
+      background-color: pink;
+      min-height: 120px;
+  }
+  .sticky-item-lookandfeel-3 {
+      background-color: cornflowerblue;
+  }
+  h1, h2, h3 {
+      margin-top: 0;
+      padding-top: 0;
+  }
+  h1 {
+      background-color: #cecece;
+      line-height: 4em;
+      margin-top: 8px;
+  }
+  .foot-display {
+      padding-top: 140px;
+  }
+  .foot-display span {
+    display: inline-block;
+    letter-spacing: 10px;
+    margin: 0 30px 0 50px;
+    position: relative;
+    -webkit-transform: scale(2,20);
+    -webkit-transform-origin-y: 50%;
+  }
+  .version {
+      font-size: 50%;
+      opacity: 0.5;
+  }
+
+  .sticky-button {
+      background-color:lightgreen;
+      border-top: 0 none;
+      padding: 10px;
+  }
+  .sticky-button button {
+      width: 100%;
+  }
+  aside {
+      width: 330px;
+  }
+  aside h3, aside p {
+      padding-left: 10px;
+  }
+
+  </style>
+</head>
+
+<body class="homePageRenderer">
+<div class="page-home container">
+    <div class="row">
+        <h1 class="text-center demo-block-outline">I'm the header <span class="version"></span> </h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2"><ul>
+            <li>Navigation</li>
+            <li>Navigation</li>
+            <li>Navigation</li>
+            <li>Navigation</li>
+            <li>Navigation</li>
+        </ul></div>
+        <div class="col-md-6 demo-block-outline main-content">
+            <h2>Main content</h2>
+
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam velit augue, bibendum in fringilla quis, blandit nec odio. Proin rhoncus mollis diam, vel blandit libero blandit non. Maecenas auctor odio porttitor, egestas neque et, consectetur ipsum. Aliquam vel mattis tortor, sit amet euismod justo. Nulla ultrices dui justo, ut feugiat velit bibendum vitae. Integer quis nunc purus. Sed bibendum elit magna, ut ornare eros lacinia eu. Fusce vitae lectus at diam molestie scelerisque ut non orci. Donec diam magna, dictum nec lobortis quis, faucibus ut felis. Donec vestibulum nunc ut quam dapibus, imperdiet placerat justo tristique. Cras mollis, lectus ut ultrices feugiat, velit augue ultricies nunc, in interdum nisl tellus id est. Duis mattis at neque eu mollis. Quisque lacinia posuere massa, ac lacinia libero aliquet vel.
+            </p>
+            <p>
+                Curabitur id massa venenatis leo vehicula ultrices at eu purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam gravida purus id lobortis vulputate. Nulla convallis vel turpis sit amet ultricies. Aenean ut commodo nisi, vitae malesuada nisi. Integer eget suscipit libero. Mauris sit amet dolor nibh.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris elementum blandit urna sed scelerisque. Vivamus vitae odio sit amet ipsum ultricies accumsan. Aenean tempus eget enim at egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Pellentesque pellentesque orci eget tellus ullamcorper commodo. Duis felis enim, lobortis et vehicula quis, tristique vel justo. Morbi a malesuada arcu. Suspendisse ac urna sit amet lectus imperdiet euismod vel vehicula lacus. Cras sed odio vitae quam posuere varius. Nam sed ipsum in lacus hendrerit pulvinar. Duis semper et lorem egestas pellentesque. Vivamus blandit non tellus quis feugiat.
+            </p>
+
+        </div>
+        <aside class="hidden-xs hidden-sm col-md-4 col-lg-3 js-sticky-stack side-bar">
+            <div id="sticky-stack-template-standard" class="side-bar-item demo-block-outline demo-block-min-height js-sticky-stack-item-container">
+                <div class="js-sticky-stack-item sticky-item-lookandfeel sticky-item-lookandfeel-2">
+                    <h3>Aside item <span class="no"></span></h3>
+                    <p>Hi, I'm standard sticky! I get pushed up by my bros</p>
+                    <p>Hi, I'm standard sticky! I get pushed up by my bros</p>
+                </div>
+            </div>
+            <div id="sticky-stack-template-static" class="side-bar-item demo-block-outline demo-block-min-height">
+                <div class="">
+                    <h3>Aside item <span class="no"></span></h3>
+                    <p>Hi, I'm not sticky, I'm static : )</p>
+                    <p>Hi, I'm not sticky, I'm static : )</p>
+                </div>
+            </div>
+            <div id="sticky-stack-template-persistant" class="side-bar-item demo-block-outline demo-block-min-height ">
+                <div class="">
+                    <h3>Aside item <span class="no"></span></h3>
+                    <p>Hi, I contain a persistently sticky item, it stays in view</p>
+                    <div class="sticky-button js-sticky-stack-item js-sticky-stack-item-fixed">
+                      <button>
+                          Persistent item
+                      </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div class="row footer snippet-footer">
+      <div class="col-md-12 demo-block-place-holder text-center foot-display" style="min-height:1300px;">I'm a <span>tall</span> footer</div>
+    </div>
+</div>
+
+<script src="../lib/vendor/jquery-1.11.1.min.js"></script>
+<script src="../lib/vendor/bootstrap.3.2.0.min.js"></script>
+<script src="../js/jquery.stickystack.js"></script>
+<script>
+
+// var stackSelector = ".js-sticky-stack",
+//     stackItemSelector = ".js-sticky-stack-item";
+//
+//
+
+$(document).ready(function(){
+
+    var version = location.pathname.split("index-")[1].split(".")[0],
+        content = $(".main-content").html();
+
+    // set version number on demo
+    $(".version").html( "(v."+ version +")" )
+    // add lots of content to page body
+    $(".main-content")
+        .append( content )
+        .append( content )
+        .append( content )
+        .append( content );
+    // set up right hand column
+
+    $("aside.js-sticky-stack")
+        .append( $("#sticky-stack-template-static").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-standard").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-static").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-persistant").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-standard").clone().attr("id",'') )
+        .append( $("#sticky-stack-template-standard").clone().attr("id",'') )
+
+    // add visible number to side bar items
+    $("aside.js-sticky-stack span.no").each(function(i, el){
+        $(el).html(i+1);
+    });
+
+    // options and utils
+    $("aside").stickyStack({})
+});
+
+
+</script>
+</body>
+</html>

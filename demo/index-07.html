@@ -28,12 +28,13 @@
 
     .affix {
         position: fixed;
+        top: 0;
     }
     .affix-top {
         position: static;
     }
     .affix-bottom {
-        position: absolute
+        position: relative
     }
     .sticky-stack-disabled .affix,
     .sticky-stack-disabled .affix-bottom,
@@ -205,11 +206,17 @@ $(document).ready(function(){
 
     // options and utils
     window.stickyStack = {
+        supported: function(){
+            // put tests here....
+            // scrolltop needed for chrome
+            return $(window).scrollTop() === 0 && !stickyStack.options.disabled ;
+        },
         options: {
             lastChildScrollDelay: 5e3,
             baseZIndex: 100,
-            stackSelector : ".js-sticky-stack",
-            stackItemSelector : ".js-sticky-stack-item"
+            stackSelector: ".js-sticky-stack",
+            stackItemSelector: ".js-sticky-stack-item",
+            styleId: "stick-stack-styles"
         },
         classNames: {
             persistant: "js-sticky-stack-item-fixed",
@@ -224,46 +231,76 @@ $(document).ready(function(){
                 return $('.footer').outerHeight(true) + 40;
             }
         },
+        setStyles: function(css){
+            if ( $("#"+stickyStack.options.styleId) ){
+                $("#"+stickyStack.options.styleId).remove();
+            }
+            if (css){
+                $('<style>'+css+'</style>').appendTo("head").attr('id',stickyStack.options.styleId);
+            }
+        },
+        disable: function( ){
+            stickyStack.options.disabled = true;
+            $(window).off('.affix') // can't be undone
+            stickyStack.removeStylesAndClasses();
+            stickyStack.removeAffixData();
+        },
         getSetParent: function($el){
             // get the sticky parent and create in not already in dom
             var $parent = $el.parent( "."+ stickyStack.classNames.container );
             if ($parent.length < 1){
                 $parent = $el.wrap("<div class='"+ stickyStack.classNames.container  +"'></div>").parent();
             }
+            $parent.attr("id", ( $parent.attr("id") || "sticky-stack-parent-"+ +new Date() ) )
             $el.data("sticky-stack-offset-parent", $parent );
             return $parent;
         },
         init: function(){
+            if ( !stickyStack.supported() ){
+                return;
+            }
+            $(window).on("resize",function() {
+                // scroll last child out of view after resize
+                clearTimeout($.data(this, 'stickyStackResizeTimer'));
+                $.data(this, 'stickyStackResizeTimer', setTimeout(function() {
+                    stickyStack.disable( );
+                },200) );
+            });
+            stickyStack.initSticky();
+        },
+        initSticky: function(){
+
             var $$stacks = $(stickyStack.options.stackSelector).not("."+stickyStack.classNames.disabled),
                 offset = 0,
                 gap = 0,
                 docHeight = $(document).height();
-            this.$$stacks = $$stacks;
+
+            // save ref to $$stacks
+            stickyStack.$$stacks = $$stacks;
+
             $$stacks.each(function(i, stack){
                 var $stack = $( stack ),
-                    $$elements = $stack.find( stickyStack.options.stackItemSelector );
+                    $$elements = $stack.find( stickyStack.options.stackItemSelector ),
+                    css = "";
 
                 // save refs to the elements and last element for the scroll timer
                 $stack
                     .data('sticky-stack-elements', $$elements)
                     .data('sticky-stack-final-element', $( $$elements.last() ) )
-                    .data('sticky-stack-final-element').html("<h3>I'm the last item</h3><p style=min-height:120px>I'm the last item, I will scroll out of view after a delay of "+ stickyStack.options.lastChildScrollDelay/1000 +" secs</p>")
+
                 $$elements.each(function(i, el){
                     // set boostrap affix and width on elements and height on parent elements to preserve their space
                     var $el = $(el),
                         ii = (i+1),
                         $parent = stickyStack.getSetParent($el),
-                        persistant = $el.hasClass( stickyStack.classNames.persistant );
+                        persistant = $el.hasClass( stickyStack.classNames.persistant ),
+                        id = $el.attr("id") || "sticky-stack-"+ +new Date();
 
-
-                    $el.data("sticky-stack-top", gap*ii + offset )
+                    $el
+                        .attr("id", id)
+                        .data("sticky-stack-top", gap*ii + offset )
                         .data("sticky-stack-offset-height", $el.outerHeight(true) + gap )
                         .data("sticky-stack-persistant",  persistant )
-                        .css({
-                            'width': $el.outerWidth( true ),
-                            'top': $el.data("sticky-stack-top"),
-                            'z-index': stickyStack.options.baseZIndex + ( persistant ? 1 : 0)
-                        })
                         .affix({
                             offset: {
                                 top: function() {
@@ -277,29 +314,38 @@ $(document).ready(function(){
                             }
                         });
 
-                    $parent.css({
-                        'min-height': $el.outerHeight(true)
-                    });
+                    css = css + "\n\n#"+ id +"{top:"+
+                        $el.data("sticky-stack-top") +"px;width:"+
+                        $parent.width( ) +"px;z-index:"+
+                        (stickyStack.options.baseZIndex + ii + ( persistant ? $$elements.length+1 : 0) ) +"}"+
+                        "\n#"+ $parent.attr('id')+"{min-height:"+$el.outerHeight(true)+"px;}";
 
                     if ( persistant ){
                         // add height of persistant element to offset in this stack
                         offset = offset+$el.outerHeight(true);
                     }
-                    $el.on('affixed.bs.affix', function(){
-                        // hack to pevent flicker
-                        if (!$(this).css('top') || $(this).css('top') === 'auto'){
-                            $(this).css('top', $(this).data("sticky-stack-top"));
+                    $el.on(
+                        'affix.bs.affix affix-top.bs.affix affix-bottom.bs.affix'
+                        , function(e){
+                            if(stickyStack.options.disabled){
+                                e.preventDefault();
+                            }
                         }
-                    });
+                    );
                 });
+                stickyStack.setStyles(css);
+                console.log(css)
             });
 
         },
         initScroll: function(){
             $(window).scroll(function() {
                 // scroll last child out of view after
-                clearTimeout($.data(this, 'stickyStacScrollTimer'));
-                $.data(this, 'stickyStacScrollTimer', setTimeout(function() {
+                clearTimeout($.data(this, 'stickyStackScrollTimer'));
+                $.data(this, 'stickyStackScrollTimer', setTimeout(function() {
+                    if (stickyStack.options.disabled){
+                        return ;
+                    }
                     stickyStack.$$stacks.each(function(i, stack){
                         var $stack = $( stack ),
                             $finalElement = $stack.data('sticky-stack-final-element');
@@ -318,20 +364,27 @@ $(document).ready(function(){
                 }, stickyStack.options.lastChildScrollDelay));
             });
         },
-        destroy: function(){
-            $(window).off('.affix')
+        removeAffixData: function(){
             stickyStack.$$stacks.each(function(i, stack){
                 var $stack = $( stack ),
                     $$elements = $stack.data("sticky-stack-elements")
-                $$elements.removeData('affix').removeClass('affix affix-top affix-bottom')
+                $$elements
+                    .removeData('affix')
+                    .removeData('bs.affix')
             });
+        },
+        removeStylesAndClasses: function(){
+            stickyStack.setStyles();
+            stickyStack.$$stacks
+                            .addClass( stickyStack.classNames.disabled )
+                            .find("affix, affix-top, affix-bottom")
+                            .removeClass("affix affix-top affix-bottom");
         }
     }
 
 
-    // stickyStack.init();
-    // stickyStack.initScroll();
-
+    stickyStack.init();
+    stickyStack.initScroll();
 
 });
 
